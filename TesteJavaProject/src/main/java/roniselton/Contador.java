@@ -1,4 +1,4 @@
-package br.dio.roniselton;
+package roniselton;
 
 import java.util.Scanner;
 
@@ -21,7 +21,8 @@ public class Contador {
         }
 
     }
-    static void contar(int parametroUm, int parametroDois ) throws ParametroInvalidoException {
+
+    public static void contar(int parametroUm, int parametroDois ) throws ParametroInvalidoException {
         //validar se parametroUm é MAIOR que parametroDois e lançar a exceção
         if(parametroUm > parametroDois)
             throw new ParametroInvalidoException();

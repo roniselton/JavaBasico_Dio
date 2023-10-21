@@ -1,4 +1,4 @@
-package br.dio.roniselton.uml;
+package roniselton.uml;
 
 public interface Navegador {
     void exibirPagina( String url );

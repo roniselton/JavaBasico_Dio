@@ -1,4 +1,4 @@
-package br.dio.roniselton;
+package roniselton;
 
 public class ParametroInvalidoException extends Exception {
 }

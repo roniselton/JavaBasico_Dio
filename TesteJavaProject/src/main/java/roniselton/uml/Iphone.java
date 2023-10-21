@@ -1,4 +1,4 @@
-package br.dio.roniselton.uml;
+package roniselton.uml;
 
 public class Iphone implements ReprodutorMusical , Telefone , Navegador{
     @Override
