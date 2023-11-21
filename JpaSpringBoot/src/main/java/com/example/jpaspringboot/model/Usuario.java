@@ -1,8 +1,9 @@
-package com.example.jpaspringboot.entity;
+package com.example.jpaspringboot.model;
 
 import com.example.jpaspringboot.enumerados.TipoPessoa;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -20,6 +21,7 @@ public class Usuario {
     @GeneratedValue(generator = "seq_usuario" , strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "seq_usuario" , sequenceName = "seq_usuario",  schema = "public" ,initialValue = 1 , allocationSize = 1)
     private Integer id;
+
 
     @Column(name = "nome")
     private String nome;
