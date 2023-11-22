@@ -8,7 +8,9 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -21,26 +23,30 @@ public class ResponseError {
     @NotNull(message="Timestamp cannot be null.")
     private LocalDateTime timestamp;
 
+    private String field;
+
     private String detail;
 
-    private List<String> details;
+    private Map<String,String> details;
 
-    public void addMsgError(String msg){
+    public void addMsgError(String field , String msg){
 //        if(CollectionUtils.isEmpty( getDetails() )){
         if(!CollectionUtils.isEmpty( getDetails() ) || StringUtils.hasText( getDetail() )){
-            addMsgLista( msg );
+            addMsgLista( field ,  msg );
         }else{
             setDetail(msg);
+            setField(field);
         }
     }
 
-    private void addMsgLista(String msg) {
+    private void addMsgLista(String field , String msg) {
         if(details == null) {
-            setDetails(new ArrayList<>());
-            getDetails().add( detail );
+            setDetails(new LinkedHashMap<>());
+            getDetails().put( this.field , this.detail );
             setDetail(null);
+            setField( null);
         }
-        getDetails().add( msg );
+        getDetails().put( field , msg );
     }
 
 }

@@ -20,9 +20,13 @@ public class Response<T> {
     private ResponseError error;
 
     public void addErrorMsg(String msg){
+       addErrorMsg( "" , msg);
+    }
+
+    public void addErrorMsg(String field , String msg){
         if(getError() == null)
             setError( ResponseError.builder().timestamp(LocalDateTime.now()).build() );
-        getError().addMsgError( msg );
+        getError().addMsgError( field , msg );
     }
 
 }
