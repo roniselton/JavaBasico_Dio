@@ -2,12 +2,13 @@ package com.example.jpaspringboot.controller;
 
 import com.example.jpaspringboot.dto.ContatoDTO;
 import com.example.jpaspringboot.dto.ContatoRecord;
+import com.example.jpaspringboot.event.ResourceCreatedEvent;
 import com.example.jpaspringboot.model.Contato;
 import com.example.jpaspringboot.service.ContatoService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -34,8 +35,11 @@ public class ContatoController {
 
     private final ContatoService contatoService;
 
-    public ContatoController(ContatoService contatoService) {
+    private final ApplicationEventPublisher publisher;
+
+    public ContatoController(ContatoService contatoService, ApplicationEventPublisher publisher) {
         this.contatoService = contatoService;
+        this.publisher = publisher;
     }
 
     @GetMapping
@@ -102,7 +106,8 @@ public class ContatoController {
     public ResponseEntity<ContatoRecord> incluir(@Valid @RequestBody ContatoDTO record , HttpServletResponse response ){
         Optional<Contato> opContato = contatoService.createContato(
                 new ContatoRecord( null, record.getNome(),record.getSobrenome(),record.getEmail(),record.getCelular(),record.getDataNascimento() ) );
-        adicionandoLocation(response, opContato);
+//        adicionandoLocation(response, opContato);
+        adicionandoLocationcomEvento( response , opContato);
         return opContato.map(contato -> ResponseEntity.ok(ContatoRecord.convertToRecord(contato)))
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }
@@ -137,6 +142,12 @@ public class ContatoController {
     private static void adicionandoLocation(HttpServletResponse response, Contato contato) {
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("contato").path("/{idContato}").buildAndExpand(contato.getId()).toUri();
         response.setHeader("location", uri.toASCIIString());
+    }
+
+    private void adicionandoLocationcomEvento(HttpServletResponse response, Optional<Contato> opContato) {
+        opContato.ifPresent(contato ->
+                publisher.publishEvent( new ResourceCreatedEvent( contato , "contato" , contato.getId().longValue() , response))
+        );
     }
 
 }
