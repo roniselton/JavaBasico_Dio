@@ -3,6 +3,9 @@ package com.example.jpaspringboot.controller;
 import com.example.jpaspringboot.dto.Response;
 import com.example.jpaspringboot.dto.ResponseGenerico;
 import com.example.jpaspringboot.exception.RegistroNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Locale;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/teste")
 public class TesteController {
+
+    @Autowired
+    private MessageSource messageSource;
 
     @GetMapping
     public String ola(){
@@ -41,5 +48,10 @@ public class TesteController {
                     .add("par",2L)
                     .add("impar",3L).build());
         }
+    }
+
+    @GetMapping("/msgerro")
+    public String messageErro(){
+        return messageSource.getMessage("msg.erro",null, Locale.getDefault());
     }
 }

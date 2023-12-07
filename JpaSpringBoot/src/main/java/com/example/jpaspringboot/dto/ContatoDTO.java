@@ -1,5 +1,6 @@
 package com.example.jpaspringboot.dto;
 
+import com.example.jpaspringboot.model.Contato;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -41,5 +42,15 @@ public class ContatoDTO extends RepresentationModel<ContatoDTO> {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR")
     private LocalDate dataNascimento;
 
+    public static ContatoDTO convertToDTO(Contato contato){
+        return ContatoDTO.builder()
+                .id( contato.getId() )
+                .nome(contato.getNome())
+                .sobrenome(contato.getSobrenome())
+                .email(contato.getEmail())
+                .celular(contato.getCelular())
+                .dataNascimento(contato.getDataNascimento())
+                .build();
+    }
 
 }
