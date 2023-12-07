@@ -1,5 +1,6 @@
 package com.example.jpaspringboot.model;
 
+import com.example.jpaspringboot.enumerados.TipoCategoriaEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -29,9 +30,17 @@ public class Categoria {
 
 
     @NotBlank(message = "Descrição é obrigatória.")
-    @Length(min = 3, message = "A descrição deve ter no mínimo 3 caracteres.")
+    @Length(min = 3, message = "deve ter no mínimo 3 caracteres.")
     @Column(name = "descricao")
     private String descricao;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo")
+    private TipoCategoriaEnum tipo;
+
+    @Column(name = "ativo")
+    private Boolean ativo;
 
     @Override
     public String toString() {
