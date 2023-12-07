@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,7 +40,11 @@ public class Categoria {
     @Column(name = "tipo")
     private TipoCategoriaEnum tipo;
 
-    @Column(name = "ativo")
+    // Adicionando valores default
+//    @Column(name = "ativo")
+//    private Boolean ativo = true;
+
+    @Column(name = "ativo", columnDefinition = "boolean default false" )
     private Boolean ativo;
 
     @Override
